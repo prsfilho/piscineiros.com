@@ -3,13 +3,30 @@ import { validateCPF } from '../common/validators';
 import * as bcrypt from 'bcrypt';
 import { environment } from '../common/environment';
 
+export interface IClients extends mongoose.Document {
+    name: string;
+    address: string;
+}
+
 export interface IProvider extends mongoose.Document {
     name: string;
     email: string;
     password: string;
     gender: string;
     cpf: string;
+    clients: IClients[];
 }
+
+const clientsSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    }
+})
 
 const providersSchema = new mongoose.Schema({
     name: {
@@ -41,6 +58,12 @@ const providersSchema = new mongoose.Schema({
             validator: validateCPF,
             message: 'invalid CPF ({VALUE})'
         }
+    },
+    clients: {
+        type: [clientsSchema],
+        required: false,
+        select: false, // testar true mais tarde
+        default: []
     }
 }, 
 {
