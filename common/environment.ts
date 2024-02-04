@@ -4,5 +4,8 @@ export const environment = {
     },    
     db: {
         url: process.env.URL || 'mongodb://localhost/piscineiros'
+    },
+    security: {
+        saltRounds: process.env.SALT_ROUNDS || 10
     }
 }
